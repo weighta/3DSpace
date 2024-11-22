@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32922.545
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "3DSpace", "3DSpace\3DSpace.csproj", "{1BDE23ED-50AF-419F-AAFD-7629671C87CC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1BDE23ED-50AF-419F-AAFD-7629671C87CC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1BDE23ED-50AF-419F-AAFD-7629671C87CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1BDE23ED-50AF-419F-AAFD-7629671C87CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1BDE23ED-50AF-419F-AAFD-7629671C87CC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9488B60D-6A9E-4972-B82F-1EDC46C4B8E4}
+	EndGlobalSection
+EndGlobal

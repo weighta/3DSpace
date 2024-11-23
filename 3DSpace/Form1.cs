@@ -21,6 +21,7 @@ namespace _3DSpace
         public bool isMovingLeft;
         public bool isMovingRight;
         public bool isPhysicsPaused;
+        public bool isPinging;
         public bool isCamZ;
         public bool isMouseMove;
     }
@@ -77,6 +78,7 @@ namespace _3DSpace
                 else if (e.KeyCode == Keys.ControlKey) controls.isMovingDown = true;
                 else if (e.KeyCode == Keys.Space) controls.isMovingUp = true;
                 else if (e.KeyCode == Keys.P) controls.isPhysicsPaused = Convert.ToBoolean(Convert.ToInt32(controls.isPhysicsPaused) ^ 1);
+                else if (e.KeyCode == Keys.O) controls.isPinging = Convert.ToBoolean(Convert.ToInt32(controls.isPinging) ^ 1);
                 game.controls = controls;
             }
 

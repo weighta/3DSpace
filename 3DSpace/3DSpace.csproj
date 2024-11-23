@@ -55,6 +55,7 @@
     </Compile>
     <Compile Include="Generator.cs" />
     <Compile Include="GraphicsMath.cs" />
+    <Compile Include="PingNetwork.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="World.cs" />

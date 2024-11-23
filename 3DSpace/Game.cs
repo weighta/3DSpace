@@ -59,7 +59,7 @@ namespace _3DSpace
     public class Game
     {
         Stopwatch Tick_watch;
-        const int TICKS_PER_SECOND = 60;
+        const int TICKS_PER_SECOND = 30;
         const int TICK_CheckInterval = 1;
         private int TICKS_AWAIT_TIME_MS;
         private double TICK_free_ms;
@@ -71,10 +71,12 @@ namespace _3DSpace
         GraphicsMath graphicsMath;
         Pen[] linePen;
         Font fontDebug;
+        Font fontDebug1;
         RectangleF FPS_screen_loc;
         RectangleF CAM_screen_loc;
         RectangleF CUBE_screen_loc;
         RectangleF CAM_screen_loc1;
+        RectangleF PING_screen_loc;
         Bitmap bitmapStream;
         Bitmap bitmapBuffer;
         const int DEPTH = 300;
@@ -96,6 +98,8 @@ namespace _3DSpace
         vec3D[] verts_cam;
         vec2D[] screenDraw;
 
+        PingNetwork ping;
+
         public Game(Controls controls, PictureBox pictureBox1, int width, int height)
         {
             this.pictureBox1 = pictureBox1;
@@ -115,11 +119,14 @@ namespace _3DSpace
             verts_cam = new vec3D[8];
             Tick_watch = new Stopwatch();
             world = new World();
+            ping = new PingNetwork();
             fontDebug = new Font("Arial", 12, FontStyle.Bold);
+            fontDebug1 = new Font("Arial", 8, FontStyle.Bold);
             FPS_screen_loc = new RectangleF(10, 300, 0, 0);
             CAM_screen_loc = new RectangleF(10, 320, 0, 0);
             CUBE_screen_loc = new RectangleF(10, 340, 0, 0);
             CAM_screen_loc1 = new RectangleF(10, 360, 0, 0);
+            PING_screen_loc = new RectangleF(0, 0, 0, 0);
             isPaused = false;
             game_thread = new Thread(new ParameterizedThreadStart(game_Thread));
             gameTick_thread = new Thread(new ParameterizedThreadStart(gameTick_Thread));
@@ -182,6 +189,7 @@ namespace _3DSpace
                 world.CubeTranslate();
                 world.CubeRotate();
             }
+            if (ping.isPinging != controls.isPinging) ping.isPinging = controls.isPinging;
         }
         void Draw(double gameTime)
         {
@@ -246,6 +254,12 @@ namespace _3DSpace
                             (int)screenDraw[world.cube[i].edges[j + 1]].x,
                             (int)screenDraw[world.cube[i].edges[j + 1]].y
                             );
+                    }
+                    if (controls.isPinging)
+                    {
+                        PING_screen_loc.X = (int)screenDraw[0].x;
+                        PING_screen_loc.Y = (int)screenDraw[0].y;
+                        g_Stream.DrawString("Ping: " + ping.result[i % ping.result.Length] + "ms " + ping.pingList[i % ping.pingList.Length], fontDebug1, Brushes.Gray, PING_screen_loc, null);
                     }
                 }
             }
@@ -312,8 +326,18 @@ namespace _3DSpace
             int z_vel = 0;
             if ((Convert.ToInt32(controls.isMovingFoward) ^ Convert.ToInt32(controls.isMovingBackward)) == 1)
             {
-                if (controls.isMovingFoward) z_vel = max_speed;
-                else z_vel = -max_speed;
+                if (controls.isMovingFoward)
+                {
+                    z_vel = (int)(max_speed * graphicsMath.cos(world.camera.yaw_deg));
+                    y_vel = (int)(max_speed * graphicsMath.sin(world.camera.pitch_deg));
+                    x_vel = (int)(max_speed * graphicsMath.sin(world.camera.yaw_deg));
+                }
+                else
+                {
+                    z_vel = (int)(-max_speed * graphicsMath.cos(world.camera.yaw_deg));
+                    y_vel = (int)(-max_speed * graphicsMath.sin(world.camera.pitch_deg));
+                    x_vel = (int)(-max_speed * graphicsMath.sin(world.camera.yaw_deg));
+                }
             }
             if ((Convert.ToInt32(controls.isMovingLeft) ^ Convert.ToInt32(controls.isMovingRight)) == 1)
             {
